@@ -45,7 +45,7 @@ textarea:focus {
   color: #111827 !important;
 }
 
-/* プレースホルダーの色を薄く調整 */
+/* プレースホルダーの色を薄く調整 - v2 */
 input::placeholder,
 textarea::placeholder {
   color: #d1d5db !important; /* グレー300 - より薄い色 */
