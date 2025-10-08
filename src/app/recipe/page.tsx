@@ -182,14 +182,14 @@ export default function RecipePage() {
                     type="text"
                     value={ingredient.name}
                     onChange={(e) => updateIngredient(index, 'name', e.target.value)}
-                    placeholder="食材名（例：鶏もも肉）"
+                    placeholder=""
                     className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                   <input
                     type="text"
                     value={ingredient.quantity}
                     onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
-                    placeholder="分量（例：300g）"
+                    placeholder=""
                     className="w-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                   {ingredients.length > 1 && (
@@ -248,7 +248,7 @@ export default function RecipePage() {
               <textarea
                 value={additionalRequest}
                 onChange={(e) => setAdditionalRequest(e.target.value)}
-                placeholder="例：風邪を引いているので食べやすいものにしてください&#10;例：1週間分の作り置き用なので大量に作れるレシピで&#10;例：4時間かかってもいいので本格的な料理を"
+                placeholder=""
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 h-24 resize-none"
                 rows={4}
               />
@@ -271,7 +271,7 @@ export default function RecipePage() {
                     type="text"
                     value={familyMembers}
                     onChange={(e) => setFamilyMembers(e.target.value)}
-                    placeholder="例：4人"
+                    placeholder=""
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                 </div>
@@ -283,7 +283,7 @@ export default function RecipePage() {
                     type="text"
                     value={familyAges}
                     onChange={(e) => setFamilyAges(e.target.value)}
-                    placeholder="例：大人2人、子供2人（5歳、8歳）"
+                    placeholder=""
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                 </div>
