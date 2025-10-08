@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Plus, X, ChefHat, Clock, Users, Utensils, Timer, Zap } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowLeft, Plus, X, Clock, Users, Utensils, Timer, Zap } from 'lucide-react';
 
 interface RecipeStep {
   id: number;
@@ -170,9 +171,11 @@ export default function RecipePage() {
               <ArrowLeft className="w-5 h-5 mr-2" />
               戻る
             </button>
-            <img 
+            <Image 
               src="/images/logotype.svg" 
               alt="サクッと献立" 
+              width={200}
+              height={64}
               className="h-12 md:h-16"
             />
           </div>

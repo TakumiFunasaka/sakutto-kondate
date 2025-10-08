@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChefHat, Users, Clock, Utensils } from 'lucide-react';
+import Image from 'next/image';
+import { Users, Clock, Utensils } from 'lucide-react';
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -42,9 +43,11 @@ export default function Home() {
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
             <div className="text-center mb-8">
-              <img 
+              <Image 
                 src="/images/logoicon.svg" 
                 alt="サクッと献立ロゴ" 
+                width={64}
+                height={64}
                 className="w-16 h-16 mx-auto mb-4"
               />
               <h1 className="text-3xl font-bold text-gray-800 mb-2">サクッと献立</h1>
@@ -90,9 +93,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-3 md:py-4">
             <div className="flex items-center">
-              <img 
+              <Image 
                 src="/images/logotype.svg" 
                 alt="サクッと献立" 
+                width={200}
+                height={64}
                 className="h-12 md:h-16"
               />
             </div>
@@ -113,9 +118,11 @@ export default function Home() {
           <div className="mb-8">
             {/* 文字入りロゴ */}
             <div className="mb-6">
-              <img 
+              <Image 
                 src="/images/logotype.svg" 
                 alt="サクッと献立" 
+                width={400}
+                height={192}
                 className="h-32 md:h-48 mx-auto"
               />
             </div>
@@ -133,9 +140,11 @@ export default function Home() {
           {/* Hero Image */}
           <div className="mb-8">
             <div className="relative mx-auto w-full max-w-md h-64 rounded-2xl shadow-lg overflow-hidden">
-              <img 
+              <Image 
                 src="/images/hero-image.png" 
                 alt="美味しい料理" 
+                width={400}
+                height={256}
                 className="w-full h-full object-cover"
               />
             </div>

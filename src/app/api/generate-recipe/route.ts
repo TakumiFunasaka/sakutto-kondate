@@ -2,7 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
 // 工程最適化の固定ロジック（LLMから委譲）
-function optimizeSteps(steps: any[]) {
+interface RecipeStep {
+  id: number;
+  title: string;
+  description: string;
+  duration: number;
+  dependencies: number[];
+  canParallel: boolean;
+  category: 'prep' | 'cook' | 'serve' | 'wait';
+  startTime: number;
+  dishLabel?: string;
+}
+
+function optimizeSteps(steps: RecipeStep[]) {
   if (!steps || steps.length === 0) return steps;
   
   // 依存関係を考慮してstartTimeを計算（再帰的アプローチ）
@@ -46,7 +58,7 @@ function optimizeSteps(steps: any[]) {
 }
 
 // 最適化された時間を計算
-function calculateOptimizedTime(steps: any[]) {
+function calculateOptimizedTime(steps: RecipeStep[]) {
   if (!steps || steps.length === 0) return 30;
   
   // 各工程の終了時間を計算
