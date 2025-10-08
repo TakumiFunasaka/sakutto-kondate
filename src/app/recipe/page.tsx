@@ -121,6 +121,9 @@ export default function RecipePage() {
 
       const data = await response.json();
       setRecipe(data.recipe);
+      
+      // レシピ生成後に画面上部までスクロール
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'レシピの生成中にエラーが発生しました。もう一度お試しください。';
       setError(errorMessage);
@@ -365,6 +368,8 @@ export default function RecipePage() {
                 onClick={() => {
                   setRecipe(null);
                   setIngredients([{ name: '', quantity: '' }]);
+                  // 新しい献立提案画面に戻る際も画面上部までスクロール
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 className="bg-gray-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-600 transition-colors shadow-lg mr-4"
               >
