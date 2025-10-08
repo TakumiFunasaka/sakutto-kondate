@@ -20,7 +20,7 @@ interface RecipeStep {
 interface Recipe {
   title: string;
   menuItems: string[];
-  ingredients: string[];
+  ingredients: string[] | { [key: string]: string[] };
   instructions: string[];
   tips: string[];
   servings: string;
@@ -380,14 +380,42 @@ export default function RecipePage() {
                 <Utensils className="w-6 h-6 mr-2" />
                 材料
               </h3>
-              <ul className="space-y-2">
-                {recipe.ingredients.map((ingredient, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span className="text-gray-700">{ingredient}</span>
-                  </li>
-                ))}
-              </ul>
+              
+              {/* 料理別材料表示 */}
+              {typeof recipe.ingredients === 'object' && !Array.isArray(recipe.ingredients) ? (
+                <div className="space-y-6">
+                  {Object.entries(recipe.ingredients).map(([dishLabel, ingredients]) => (
+                    <div key={dishLabel} className="bg-orange-50 rounded-lg p-4">
+                      <h4 className="text-lg font-semibold text-orange-800 mb-3 flex items-center">
+                        <span className="w-6 h-6 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-2">
+                          {dishLabel}
+                        </span>
+                        {recipe.menuItems && recipe.menuItems[dishLabel.charCodeAt(0) - 65] 
+                          ? recipe.menuItems[dishLabel.charCodeAt(0) - 65] 
+                          : `料理${dishLabel}`}
+                      </h4>
+                      <ul className="space-y-2">
+                        {ingredients.map((ingredient, index) => (
+                          <li key={index} className="flex items-start">
+                            <span className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <span className="text-gray-700">{ingredient}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* 旧形式（配列）の場合は従来通り表示 */
+                <ul className="space-y-2">
+                  {(recipe.ingredients as string[]).map((ingredient, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="w-2 h-2 bg-orange-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                      <span className="text-gray-700">{ingredient}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* 作り方（統合版） */}
