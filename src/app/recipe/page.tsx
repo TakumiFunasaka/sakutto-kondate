@@ -417,7 +417,7 @@ export default function RecipePage() {
               </button>
               <button
                 onClick={() => router.push('/')}
-                className="bg-orange-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-orange-700 transition-colors shadow-lg"
+                className="bg-gray-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-600 transition-colors shadow-lg"
               >
                 ホームに戻る
               </button>
