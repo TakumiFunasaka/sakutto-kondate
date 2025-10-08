@@ -53,13 +53,11 @@ export default function RecipePage() {
     }
     setIsAuthenticated(true);
 
-    // 保存された設定を読み込み（追加要望は除く）
+    // 保存された設定を読み込み（家族構成のみ）
     const savedFamilyMembers = localStorage.getItem('familyMembers');
     const savedFamilyAges = localStorage.getItem('familyAges');
-    const savedGenre = localStorage.getItem('selectedGenre');
     if (savedFamilyMembers) setFamilyMembers(savedFamilyMembers);
     if (savedFamilyAges) setFamilyAges(savedFamilyAges);
-    if (savedGenre) setSelectedGenre(savedGenre);
   }, [router]);
 
   const addIngredient = () => {
@@ -81,8 +79,7 @@ export default function RecipePage() {
   const saveUserPreferences = () => {
     localStorage.setItem('familyMembers', familyMembers);
     localStorage.setItem('familyAges', familyAges);
-    localStorage.setItem('selectedGenre', selectedGenre);
-    // 追加要望は記憶しない（毎回変わるため）
+    // ジャンルと追加要望は記憶しない（毎回変わるため）
   };
 
   const generateRecipe = async () => {
