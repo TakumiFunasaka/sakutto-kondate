@@ -1,103 +1,156 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { ChefHat, Users, Clock, Utensils } from 'lucide-react';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    // セッションストレージで認証状態を確認
+    const authStatus = sessionStorage.getItem('authenticated');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 環境変数からパスワードを取得（本番では環境変数を使用）
+    const correctPassword = process.env.NEXT_PUBLIC_APP_PASSWORD || 'recipe2024';
+    
+    if (password === correctPassword) {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('authenticated', 'true');
+      setError('');
+    } else {
+      setError('パスワードが正しくありません');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.removeItem('authenticated');
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+            <div className="text-center mb-8">
+              <ChefHat className="w-16 h-16 text-orange-500 mx-auto mb-4" />
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">サクッと献立</h1>
+              <p className="text-gray-600">AIがあなたの献立をサクッと提案します</p>
+            </div>
+          
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                パスワード
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                placeholder="パスワードを入力"
+                required
+              />
+            </div>
+            
+            {error && (
+              <div className="text-red-500 text-sm text-center">{error}</div>
+            )}
+            
+            <button
+              type="submit"
+              className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg hover:bg-orange-600 transition-colors font-medium"
+            >
+              ログイン
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex flex-col">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-sm shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-3 md:py-4">
+            <div className="flex items-center space-x-2 md:space-x-3">
+              <ChefHat className="w-6 h-6 md:w-8 md:h-8 text-orange-500" />
+              <h1 className="text-lg md:text-2xl font-bold text-gray-800">サクッと献立</h1>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="text-gray-600 hover:text-gray-800 transition-colors text-sm md:text-base"
+            >
+              ログアウト
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Hero Section */}
+          <div className="mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+              今日の献立を
+              <br className="md:hidden" />
+              <span className="text-orange-500">決めましょう</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              家にある食材を教えてください。<br className="md:hidden" />
+              AIが美味しい献立を提案します。
+            </p>
+          </div>
+
+          {/* Hero Image */}
+          <div className="mb-8">
+            <div className="relative mx-auto w-full max-w-md h-64 rounded-2xl shadow-lg overflow-hidden">
+              <img 
+                src="/images/hero-image.png" 
+                alt="美味しい料理" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Quick Features */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-gray-600">
+            <div className="flex items-center">
+              <Clock className="w-4 h-4 mr-1" />
+              1時間以内
+            </div>
+            <div className="flex items-center">
+              <Users className="w-4 h-4 mr-1" />
+              家族構成対応
+            </div>
+            <div className="flex items-center">
+              <Utensils className="w-4 h-4 mr-1" />
+              詳細レシピ
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <button
+            onClick={() => router.push('/recipe')}
+            className="bg-orange-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            サクッと献立を提案してもらう
+          </button>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
