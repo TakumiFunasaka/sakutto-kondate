@@ -177,29 +177,43 @@ export default function RecipePage() {
                 食材名と分量は任意です。何も入力しなくても、AIが自由に献立を考えます。分量を入力するとより具体的なレシピを提案します。
               </p>
               {ingredients.map((ingredient, index) => (
-                <div key={index} className="flex items-center mb-3 space-x-3">
-                  <input
-                    type="text"
-                    value={ingredient.name}
-                    onChange={(e) => updateIngredient(index, 'name', e.target.value)}
-                    placeholder=""
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
-                  />
-                  <input
-                    type="text"
-                    value={ingredient.quantity}
-                    onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
-                    placeholder=""
-                    className="w-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
-                  />
-                  {ingredients.length > 1 && (
-                    <button
-                      onClick={() => removeIngredient(index)}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  )}
+                <div key={index} className="mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="flex-1">
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                        食材名
+                      </label>
+                      <input
+                        type="text"
+                        value={ingredient.name}
+                        onChange={(e) => updateIngredient(index, 'name', e.target.value)}
+                        placeholder=""
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
+                      />
+                    </div>
+                    <div className="w-32">
+                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                        分量
+                      </label>
+                      <input
+                        type="text"
+                        value={ingredient.quantity}
+                        onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
+                        placeholder=""
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
+                      />
+                    </div>
+                    {ingredients.length > 1 && (
+                      <div className="flex items-end">
+                        <button
+                          onClick={() => removeIngredient(index)}
+                          className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
               <button
