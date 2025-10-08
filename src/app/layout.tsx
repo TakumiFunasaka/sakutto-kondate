@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "サクッと献立 - AI献立提案アプリ",
   description: "家にある食材を入力するだけで、1時間以内で作れる美味しい献立をAIが提案します。家族構成に合わせた分量調整も可能。",
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({

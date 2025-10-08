@@ -155,8 +155,11 @@ export default function RecipePage() {
               <ArrowLeft className="w-5 h-5 mr-2" />
               戻る
             </button>
-            <ChefHat className="w-8 h-8 text-orange-500 mr-3" />
-            <h1 className="text-2xl font-bold text-gray-800">サクッと献立</h1>
+            <img 
+              src="/images/logotype.svg" 
+              alt="サクッと献立" 
+              className="h-8"
+            />
           </div>
         </div>
       </header>

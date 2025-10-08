@@ -42,7 +42,11 @@ export default function Home() {
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
             <div className="text-center mb-8">
-              <ChefHat className="w-16 h-16 text-orange-500 mx-auto mb-4" />
+              <img 
+                src="/images/logoicon.svg" 
+                alt="サクッと献立ロゴ" 
+                className="w-16 h-16 mx-auto mb-4"
+              />
               <h1 className="text-3xl font-bold text-gray-800 mb-2">サクッと献立</h1>
               <p className="text-gray-600">AIがあなたの献立をサクッと提案します</p>
             </div>
@@ -85,9 +89,12 @@ export default function Home() {
       <header className="bg-white/80 backdrop-blur-sm shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-3 md:py-4">
-            <div className="flex items-center space-x-2 md:space-x-3">
-              <ChefHat className="w-6 h-6 md:w-8 md:h-8 text-orange-500" />
-              <h1 className="text-lg md:text-2xl font-bold text-gray-800">サクッと献立</h1>
+            <div className="flex items-center">
+              <img 
+                src="/images/logotype.svg" 
+                alt="サクッと献立" 
+                className="h-8 md:h-10"
+              />
             </div>
             <button
               onClick={handleLogout}
@@ -104,6 +111,14 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           {/* Hero Section */}
           <div className="mb-8">
+            {/* 文字入りロゴ */}
+            <div className="mb-6">
+              <img 
+                src="/images/logotype.svg" 
+                alt="サクッと献立" 
+                className="h-16 md:h-24 mx-auto"
+              />
+            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
               今日の献立を
               <br className="md:hidden" />
