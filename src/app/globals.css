@@ -45,6 +45,13 @@ textarea:focus {
   color: #111827 !important;
 }
 
+/* ロゴに合わせたカスタムカラー */
+:root {
+  --brand-amber: #F8C33A;
+  --brand-orange: #D9581D;
+  --brand-brown: #9C390F;
+}
+
 /* プレースホルダーの色を薄く調整 - v2 */
 input::placeholder,
 textarea::placeholder {

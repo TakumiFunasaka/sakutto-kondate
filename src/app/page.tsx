@@ -73,7 +73,7 @@ export default function Home() {
             
             <button
               type="submit"
-              className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg hover:bg-orange-600 transition-colors font-medium"
+              className="w-full bg-amber-600 text-white py-3 px-4 rounded-lg hover:bg-amber-700 transition-colors font-medium"
             >
               ログイン
             </button>
@@ -84,7 +84,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 flex flex-col">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -122,7 +122,7 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
               今日の献立を
               <br className="md:hidden" />
-              <span className="text-orange-500">決めましょう</span>
+              <span className="text-amber-600">一瞬で決めよう</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               家にある食材を教えてください。<br className="md:hidden" />
@@ -160,7 +160,7 @@ export default function Home() {
           {/* CTA Button */}
           <button
             onClick={() => router.push('/recipe')}
-            className="bg-orange-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-orange-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="bg-amber-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-amber-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
           >
             サクッと献立を提案してもらう
           </button>

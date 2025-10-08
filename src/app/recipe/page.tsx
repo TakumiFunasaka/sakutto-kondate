@@ -191,7 +191,7 @@ export default function RecipePage() {
                         value={ingredient.name}
                         onChange={(e) => updateIngredient(index, 'name', e.target.value)}
                         placeholder=""
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-gray-700"
                       />
                     </div>
                     <div className="w-32">
@@ -203,7 +203,7 @@ export default function RecipePage() {
                         value={ingredient.quantity}
                         onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
                         placeholder=""
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-gray-700"
                       />
                     </div>
                     {ingredients.length > 1 && (
@@ -221,7 +221,7 @@ export default function RecipePage() {
               ))}
               <button
                 onClick={addIngredient}
-                className="flex items-center text-orange-500 hover:text-orange-600 transition-colors"
+                className="flex items-center text-amber-500 hover:text-amber-600 transition-colors"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 食材を追加
@@ -243,7 +243,7 @@ export default function RecipePage() {
                     onClick={() => setSelectedGenre(genre.id)}
                     className={`p-3 rounded-lg border-2 text-left transition-colors ${
                       selectedGenre === genre.id
-                        ? 'border-orange-500 bg-orange-50 text-orange-700'
+                        ? 'border-orange-500 bg-amber-50 text-orange-700'
                         : 'border-gray-200 hover:border-gray-300 text-gray-700'
                     }`}
                   >
@@ -266,7 +266,7 @@ export default function RecipePage() {
                 value={additionalRequest}
                 onChange={(e) => setAdditionalRequest(e.target.value)}
                 placeholder=""
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 h-24 resize-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-gray-700 h-24 resize-none"
                 rows={4}
               />
             </div>
@@ -289,7 +289,7 @@ export default function RecipePage() {
                     value={familyMembers}
                     onChange={(e) => setFamilyMembers(e.target.value)}
                     placeholder=""
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-gray-700"
                   />
                 </div>
                 <div>
@@ -301,7 +301,7 @@ export default function RecipePage() {
                     value={familyAges}
                     onChange={(e) => setFamilyAges(e.target.value)}
                     placeholder=""
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-gray-700"
                   />
                 </div>
               </div>
@@ -317,7 +317,7 @@ export default function RecipePage() {
               <button
                 onClick={generateRecipe}
                 disabled={isLoading}
-                className="bg-orange-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-orange-600 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-amber-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-amber-700 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? '献立を考え中...' : 'サクッと献立を提案してもらう'}
               </button>
@@ -345,8 +345,8 @@ export default function RecipePage() {
                 <h3 className="text-2xl font-semibold text-gray-800 mb-4">献立内容</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {recipe.menuItems.map((item, index) => (
-                    <div key={index} className="flex items-center p-3 bg-orange-50 rounded-lg">
-                      <span className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3">
+                    <div key={index} className="flex items-center p-3 bg-amber-50 rounded-lg">
+                      <span className="w-6 h-6 bg-amber-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3">
                         {index + 1}
                       </span>
                       <span className="text-gray-700 font-medium">{item}</span>
@@ -365,7 +365,7 @@ export default function RecipePage() {
               <ul className="space-y-2">
                 {recipe.ingredients.map((ingredient, index) => (
                   <li key={index} className="flex items-start">
-                    <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span className="w-2 h-2 bg-amber-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                     <span className="text-gray-700">{ingredient}</span>
                   </li>
                 ))}
@@ -378,7 +378,7 @@ export default function RecipePage() {
               <ol className="space-y-4">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index} className="flex items-start">
-                    <span className="bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold mr-4 flex-shrink-0">
+                    <span className="bg-amber-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold mr-4 flex-shrink-0">
                       {index + 1}
                     </span>
                     <span className="text-gray-700 leading-relaxed">{instruction}</span>
@@ -417,7 +417,7 @@ export default function RecipePage() {
               </button>
               <button
                 onClick={() => router.push('/')}
-                className="bg-orange-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-orange-600 transition-colors shadow-lg"
+                className="bg-amber-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-amber-700 transition-colors shadow-lg"
               >
                 ホームに戻る
               </button>
