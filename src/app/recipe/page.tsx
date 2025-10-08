@@ -177,14 +177,14 @@ export default function RecipePage() {
                     value={ingredient.name}
                     onChange={(e) => updateIngredient(index, 'name', e.target.value)}
                     placeholder="食材名（例：鶏もも肉）"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                   <input
                     type="text"
                     value={ingredient.quantity}
                     onChange={(e) => updateIngredient(index, 'quantity', e.target.value)}
                     placeholder="分量（例：300g）"
-                    className="w-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-32 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                   {ingredients.length > 1 && (
                     <button
@@ -249,7 +249,7 @@ export default function RecipePage() {
                     value={familyMembers}
                     onChange={(e) => setFamilyMembers(e.target.value)}
                     placeholder="例：4人"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                 </div>
                 <div>
@@ -261,7 +261,7 @@ export default function RecipePage() {
                     value={familyAges}
                     onChange={(e) => setFamilyAges(e.target.value)}
                     placeholder="例：大人2人、子供2人（5歳、8歳）"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700"
                   />
                 </div>
               </div>
