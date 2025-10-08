@@ -411,7 +411,7 @@ export default function RecipePage() {
                   // 新しい献立提案画面に戻る際も画面上部までスクロール
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="bg-gray-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-600 transition-colors shadow-lg"
+                className="bg-orange-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-orange-700 transition-colors shadow-lg"
               >
                 新しい献立をサクッと提案してもらう
               </button>
