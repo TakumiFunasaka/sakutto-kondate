@@ -2,7 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Plus, X, ChefHat, Clock, Users, Utensils } from 'lucide-react';
+import { ArrowLeft, Plus, X, ChefHat, Clock, Users, Utensils, Timer, Zap, CheckCircle } from 'lucide-react';
+
+interface RecipeStep {
+  id: number;
+  title: string;
+  description: string;
+  duration: number;
+  dependencies: number[];
+  canParallel: boolean;
+  category: 'prep' | 'cook' | 'serve' | 'wait';
+  startTime: number;
+  dishLabel?: string; // A, B, C等の料理ラベル
+}
 
 interface Recipe {
   title: string;
@@ -12,6 +24,8 @@ interface Recipe {
   tips: string[];
   servings: string;
   totalTime: string;
+  steps?: RecipeStep[];
+  optimizedTime?: number;
 }
 
 interface Ingredient {
@@ -120,6 +134,12 @@ export default function RecipePage() {
       }
 
       const data = await response.json();
+      
+      // 受信したデータをコンソールに出力
+      console.log('=== Frontend Received Data ===');
+      console.log(JSON.stringify(data, null, 2));
+      console.log('=== End Frontend Data ===');
+      
       setRecipe(data.recipe);
       
       // レシピ生成後に画面上部までスクロール
@@ -338,16 +358,16 @@ export default function RecipePage() {
             {recipe.menuItems && recipe.menuItems.length > 0 && (
               <div className="mb-8">
                 <h3 className="text-2xl font-semibold text-gray-800 mb-4">献立内容</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {recipe.menuItems.map((item, index) => (
-                    <div key={index} className="flex items-center p-3 bg-orange-50 rounded-lg">
-                      <span className="w-6 h-6 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3">
-                        {index + 1}
-                      </span>
-                      <span className="text-gray-700 font-medium">{item}</span>
-                    </div>
-                  ))}
-                </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {recipe.menuItems.map((item, index) => (
+                     <div key={index} className="flex items-center p-3 bg-orange-50 rounded-lg">
+                       <span className="w-6 h-6 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-3">
+                         {String.fromCharCode(65 + index)}
+                       </span>
+                       <span className="text-gray-700 font-medium">{item}</span>
+                     </div>
+                    ))}
+                  </div>
               </div>
             )}
 
@@ -367,19 +387,185 @@ export default function RecipePage() {
               </ul>
             </div>
 
-            {/* 作り方 */}
+            {/* 作り方（統合版） */}
             <div className="mb-8">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-4">作り方</h3>
-              <ol className="space-y-4">
-                {recipe.instructions.map((instruction, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold mr-4 flex-shrink-0">
-                      {index + 1}
-                    </span>
-                    <span className="text-gray-700 leading-relaxed">{instruction}</span>
-                  </li>
-                ))}
-              </ol>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+                <Timer className="w-6 h-6 mr-2" />
+                作り方
+              </h3>
+              
+              {/* 調理時間の表示 */}
+              {recipe.optimizedTime && (
+                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-center text-green-700">
+                    <Zap className="w-5 h-5 mr-2" />
+                    <span className="font-semibold">調理時間: {recipe.optimizedTime}分</span>
+                  </div>
+                </div>
+              )}
+
+
+              {/* 工程リスト */}
+              {recipe.steps && recipe.steps.length > 0 ? (
+                <div className="space-y-4">
+                  {recipe.steps
+                    .sort((a, b) => a.startTime - b.startTime)
+                    .map((step, index) => (
+                      <div key={step.id} className="flex items-start p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center mr-4">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold relative ${
+                            step.category === 'prep' ? 'bg-blue-500 text-white' :
+                            step.category === 'cook' ? 'bg-orange-500 text-white' :
+                            step.category === 'serve' ? 'bg-green-500 text-white' :
+                            'bg-gray-500 text-white'
+                          }`}>
+                            {index + 1}
+                            {step.canParallel && (
+                              <div className="absolute -top-1 -right-1">
+                                <Zap className="w-3 h-3 text-blue-600 bg-white rounded-full p-0.5" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center">
+                              <h4 className="font-medium text-gray-800">{step.title}</h4>
+                              {step.dishLabel && (
+                                <span className="ml-2 px-2 py-1 bg-orange-100 text-orange-700 text-xs font-semibold rounded">
+                                  {step.dishLabel}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center text-sm text-gray-600">
+                              <Clock className="w-4 h-4 mr-1" />
+                              {step.duration}分
+                            </div>
+                          </div>
+                          <p className="text-gray-700 leading-relaxed">{step.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              ) : (
+                <ol className="space-y-4">
+                  {recipe.instructions.map((instruction, index) => (
+                    <li key={index} className="flex items-start p-4 bg-gray-50 rounded-lg">
+                      <span className="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold mr-4 flex-shrink-0">
+                        {index + 1}
+                      </span>
+                      <span className="text-gray-700 leading-relaxed">{instruction}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
+
+              {/* 時間軸ガントチャート */}
+              {recipe.steps && recipe.steps.length > 0 && (
+                <div className="mt-6">
+                  <h4 className="text-lg font-semibold text-gray-800 mb-3">時間軸工程表</h4>
+                  <div className="bg-white rounded-lg border p-4 overflow-x-auto">
+                    <div className="min-w-max">
+                      {/* 時間軸ヘッダー */}
+                      <div className="flex mb-2">
+                        <div className="w-40 text-sm font-medium text-gray-600">工程</div>
+                        <div className="flex-1 relative" style={{ width: '600px' }}>
+                          <div className="flex text-xs text-gray-500">
+                            {Array.from({ length: Math.ceil((recipe.optimizedTime || 60) / 5) + 1 }, (_, i) => {
+                              const time = i * 5;
+                              const position = (time / (recipe.optimizedTime || 60)) * 600;
+                              return (
+                                <div 
+                                  key={i} 
+                                  className="absolute text-center"
+                                  style={{ left: `${position}px`, transform: 'translateX(-50%)' }}
+                                >
+                                  {time}分
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* 工程バー */}
+                      {recipe.steps.map((step) => {
+                        const maxTime = recipe.optimizedTime || 60;
+                        const containerWidth = 600; // コンテナの幅（px）を圧縮
+                        const timeUnitWidth = containerWidth / maxTime; // 1分あたりの幅
+                        const startPosition = (step.startTime || 0) * timeUnitWidth;
+                        const barWidth = step.duration * timeUnitWidth;
+                        const barColor = step.category === 'prep' ? 'bg-blue-400' :
+                                       step.category === 'cook' ? 'bg-orange-400' :
+                                       step.category === 'serve' ? 'bg-green-400' :
+                                       'bg-gray-400';
+                        
+                        return (
+                          <div key={step.id} className="flex items-start mb-3">
+                            <div className="w-40 text-sm text-gray-700 pr-3">
+                              <div className="flex flex-col">
+                                <div className="flex items-center flex-wrap">
+                                  <span className="break-words">{step.title}</span>
+                                  {step.dishLabel && (
+                                    <span className="ml-1 px-1 py-0.5 bg-orange-100 text-orange-700 text-xs font-semibold rounded flex-shrink-0">
+                                      {step.dishLabel}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex-1 relative h-6 bg-gray-100 rounded" style={{ width: `${containerWidth}px` }}>
+                              <div 
+                                className={`absolute h-full ${barColor} rounded flex items-center justify-center text-xs text-white font-medium ${
+                                  step.canParallel ? 'ring-2 ring-blue-300' : ''
+                                }`}
+                                style={{ 
+                                  left: `${startPosition}px`,
+                                  width: `${Math.max(barWidth, 20)}px`, // 最小幅を20pxに縮小
+                                }}
+                              >
+                                {step.duration}分
+                                {step.canParallel && (
+                                  <div className="absolute -top-1 -right-1">
+                                    <Zap className="w-3 h-3 text-blue-600" />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  
+                  
+                  {/* 凡例 */}
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="flex flex-wrap gap-4 text-xs text-gray-600">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                        下準備
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
+                        調理
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                        盛り付け
+                      </div>
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-gray-500 rounded-full mr-2"></div>
+                        待ち時間
+                      </div>
+                      <div className="flex items-center">
+                        <Zap className="w-3 h-3 text-blue-600 mr-1" />
+                        並行可能
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* コツ */}
