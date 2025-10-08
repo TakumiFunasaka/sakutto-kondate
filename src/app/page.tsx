@@ -164,6 +164,9 @@ export default function Home() {
           >
             サクッと献立を提案してもらう
           </button>
+          
+          {/* 下部余白 */}
+          <div className="h-16"></div>
         </div>
       </main>
     </div>
