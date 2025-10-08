@@ -158,7 +158,7 @@ export default function RecipePage() {
             <img 
               src="/images/logotype.svg" 
               alt="サクッと献立" 
-              className="h-8"
+              className="h-12 md:h-16"
             />
           </div>
         </div>

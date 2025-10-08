@@ -93,7 +93,7 @@ export default function Home() {
               <img 
                 src="/images/logotype.svg" 
                 alt="サクッと献立" 
-                className="h-8 md:h-10"
+                className="h-12 md:h-16"
               />
             </div>
             <button
@@ -116,7 +116,7 @@ export default function Home() {
               <img 
                 src="/images/logotype.svg" 
                 alt="サクッと献立" 
-                className="h-16 md:h-24 mx-auto"
+                className="h-32 md:h-48 mx-auto"
               />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
