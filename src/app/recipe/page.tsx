@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Plus, X, ChefHat, Clock, Users, Utensils, Timer, Zap, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Plus, X, ChefHat, Clock, Users, Utensils, Timer, Zap } from 'lucide-react';
 
 interface RecipeStep {
   id: number;
