@@ -38,6 +38,7 @@ export default function RecipePage() {
   const [familyMembers, setFamilyMembers] = useState<string>('');
   const [familyAges, setFamilyAges] = useState<string>('');
   const [selectedGenre, setSelectedGenre] = useState<string>('any');
+  const [additionalRequest, setAdditionalRequest] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [error, setError] = useState('');
@@ -52,13 +53,15 @@ export default function RecipePage() {
     }
     setIsAuthenticated(true);
 
-    // 保存された家族構成とジャンルを読み込み
+    // 保存された設定を読み込み
     const savedFamilyMembers = localStorage.getItem('familyMembers');
     const savedFamilyAges = localStorage.getItem('familyAges');
     const savedGenre = localStorage.getItem('selectedGenre');
+    const savedAdditionalRequest = localStorage.getItem('additionalRequest');
     if (savedFamilyMembers) setFamilyMembers(savedFamilyMembers);
     if (savedFamilyAges) setFamilyAges(savedFamilyAges);
     if (savedGenre) setSelectedGenre(savedGenre);
+    if (savedAdditionalRequest) setAdditionalRequest(savedAdditionalRequest);
   }, [router]);
 
   const addIngredient = () => {
@@ -81,6 +84,7 @@ export default function RecipePage() {
     localStorage.setItem('familyMembers', familyMembers);
     localStorage.setItem('familyAges', familyAges);
     localStorage.setItem('selectedGenre', selectedGenre);
+    localStorage.setItem('additionalRequest', additionalRequest);
   };
 
   const generateRecipe = async () => {
@@ -111,6 +115,7 @@ export default function RecipePage() {
           familyMembers,
           familyAges,
           genre: selectedGenre,
+          additionalRequest,
         }),
       });
 
@@ -230,6 +235,23 @@ export default function RecipePage() {
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* 追加要望 */}
+            <div className="mb-8">
+              <label className="block text-lg font-semibold text-gray-700 mb-4">
+                追加要望
+              </label>
+              <p className="text-sm text-gray-600 mb-4">
+                特別な要望があれば自由に記入してください。基本条件より優先されます。
+              </p>
+              <textarea
+                value={additionalRequest}
+                onChange={(e) => setAdditionalRequest(e.target.value)}
+                placeholder="例：風邪を引いているので食べやすいものにしてください&#10;例：1週間分の作り置き用なので大量に作れるレシピで&#10;例：4時間かかってもいいので本格的な料理を"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 h-24 resize-none"
+                rows={4}
+              />
             </div>
 
             {/* 家族構成 */}
@@ -368,6 +390,7 @@ export default function RecipePage() {
                 onClick={() => {
                   setRecipe(null);
                   setIngredients([{ name: '', quantity: '' }]);
+                  setAdditionalRequest('');
                   // 新しい献立提案画面に戻る際も画面上部までスクロール
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}

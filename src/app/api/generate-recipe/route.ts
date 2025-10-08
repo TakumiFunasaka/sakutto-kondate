@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
     console.log('API called - checking environment variables...');
     console.log('OPENAI_API_KEY exists:', !!process.env.OPENAI_API_KEY);
     
-    const { ingredients, familyMembers, familyAges, genre } = await request.json();
-    console.log('Received data:', { ingredients, familyMembers, familyAges, genre });
+    const { ingredients, familyMembers, familyAges, genre, additionalRequest } = await request.json();
+    console.log('Received data:', { ingredients, familyMembers, familyAges, genre, additionalRequest });
 
     // 食材の制限をなくして、完全にフリーに考えさせる
     // 食材が空でもOK
@@ -44,10 +44,13 @@ export async function POST(request: NextRequest) {
     const genreDescription = getGenreDescription(genre || 'any');
     const genreCondition = genreDescription ? `- 料理ジャンル: ${genreDescription}` : '';
 
+    // 追加要望がある場合は基本条件を上書き
+    const hasAdditionalRequest = additionalRequest && additionalRequest.trim() !== '';
+    
     const prompt = `
 あなたは料理の専門家です。以下の条件に基づいて、美味しくて手軽な一食分の献立を提案してください。
 
-【条件】
+【基本条件】
 - 使用可能な食材: ${ingredients && ingredients.length > 0 ? ingredients.join(', ') : '特に指定なし（自由に考えてください）'}
 - 家族構成: ${familyMembers || '未指定'}
 - 年齢構成: ${familyAges || '未指定'}
@@ -58,6 +61,15 @@ ${genreCondition}
 - 一食として成立する献立（丼物など一品で完結するものも可）
 - 食材が指定されていない場合は、一般的で手に入りやすい食材を使って提案してください
 - 分量以上の食材を使っても構いません（買い増しOK）
+
+${hasAdditionalRequest ? `
+【重要：追加要望（基本条件より優先）】
+${additionalRequest}
+
+上記の追加要望が基本条件と矛盾する場合は、追加要望を優先してください。
+例：4時間かかってもいいから本格的な料理を作って、という要望があれば調理時間の制限を無視してください。
+例：1週間分の作り置き用、という要望があれば分量を大幅に増やしてください。
+` : ''}
 
 【出力形式】
 以下のJSON形式で回答してください：
