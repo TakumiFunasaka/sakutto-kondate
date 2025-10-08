@@ -13,12 +13,8 @@ export async function POST(request: NextRequest) {
     const { ingredients, familyMembers, familyAges, genre } = await request.json();
     console.log('Received data:', { ingredients, familyMembers, familyAges, genre });
 
-    if (!ingredients || ingredients.length === 0) {
-      return NextResponse.json(
-        { error: '食材が指定されていません' },
-        { status: 400 }
-      );
-    }
+    // 食材の制限をなくして、完全にフリーに考えさせる
+    // 食材が空でもOK
 
     if (!process.env.OPENAI_API_KEY) {
       console.error('OPENAI_API_KEY is not set');
@@ -52,7 +48,7 @@ export async function POST(request: NextRequest) {
 あなたは料理の専門家です。以下の条件に基づいて、美味しくて手軽な一食分の献立を提案してください。
 
 【条件】
-- 使用可能な食材: ${ingredients.join(', ')}
+- 使用可能な食材: ${ingredients && ingredients.length > 0 ? ingredients.join(', ') : '特に指定なし（自由に考えてください）'}
 - 家族構成: ${familyMembers || '未指定'}
 - 年齢構成: ${familyAges || '未指定'}
 ${genreCondition}
@@ -60,6 +56,7 @@ ${genreCondition}
 - 手軽で作りやすい料理
 - 栄養バランスを考慮
 - 一食として成立する献立（丼物など一品で完結するものも可）
+- 食材が指定されていない場合は、一般的で手に入りやすい食材を使って提案してください
 - 分量以上の食材を使っても構いません（買い増しOK）
 
 【出力形式】

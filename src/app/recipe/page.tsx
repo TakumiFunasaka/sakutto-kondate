@@ -85,10 +85,7 @@ export default function RecipePage() {
 
   const generateRecipe = async () => {
     const validIngredients = ingredients.filter(ing => ing.name.trim() !== '');
-    if (validIngredients.length === 0) {
-      setError('少なくとも1つの食材を入力してください');
-      return;
-    }
+    // 食材の制限をなくして、完全にフリーに考えさせる
 
     // ユーザー設定を保存
     saveUserPreferences();
@@ -98,6 +95,7 @@ export default function RecipePage() {
     setRecipe(null);
 
     // 食材を文字列形式に変換（分量がある場合は含める）
+    // 食材が入力されていない場合は空配列を送信
     const ingredientStrings = validIngredients.map(ing => 
       ing.quantity.trim() ? `${ing.name} ${ing.quantity}` : ing.name
     );
@@ -168,7 +166,7 @@ export default function RecipePage() {
                 家にある食材を教えてください
               </label>
               <p className="text-sm text-gray-600 mb-4">
-                食材名は必須、分量は任意です。分量を入力するとより具体的なレシピを提案します。
+                食材名と分量は任意です。何も入力しなくても、AIが自由に献立を考えます。分量を入力するとより具体的なレシピを提案します。
               </p>
               {ingredients.map((ingredient, index) => (
                 <div key={index} className="flex items-center mb-3 space-x-3">
